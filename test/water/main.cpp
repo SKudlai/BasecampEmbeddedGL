@@ -1,8 +1,9 @@
+
 #include <iostream>
 
 using namespace std;
 
-int waterLeft(unsigned int *arr, unsigned int size);
+unsigned int waterLeft(unsigned int *arr, unsigned int size);
 
 int main() {
 unsigned int size;
@@ -17,11 +18,11 @@ unsigned int size;
     return 0;
 }
 
-int waterLeft(unsigned int arr[], unsigned int size) {
+unsigned int waterLeft(unsigned int arr[], unsigned int size) {
     if (!size) {
-        return -1;
+        return 0;
     }
-    int numofWater = 0;
+    unsigned int numofWater = 0;
     unsigned int currentMaxPos = 0;
     unsigned int preMax = 0; // this variable is need for the cycle
     unsigned int preMaxPos = 0;
@@ -36,18 +37,22 @@ int waterLeft(unsigned int arr[], unsigned int size) {
                 currentMaxPos = i;
             }
         }
-        for (unsigned int k = currentMaxPos + 1; k < size; ++k) { // If pit is lower than current max, it searches pits at lower attitude
-            if (arr[k] >= preMax) {
-                preMax = arr[k];
-                preMaxPos = k;
+        if (currentMaxPos < size - 1) {
+            for (unsigned int k = currentMaxPos + 1;
+                 k < size; ++k) { // If pit is lower than current max, it searches pits at lower attitude
+                if (arr[k] >= preMax) {
+                    preMax = arr[k];
+                    preMaxPos = k;
+                }
             }
+            for (int l = currentMaxPos + 1;
+                 l < preMaxPos; ++l) { // It goes through the values between max position and premax positions
+                numofWater += preMax - arr[l];
+            }
+            currentMaxPos = preMaxPos;// And then the cycle begins from the rest of unscaned array
+            preMax = 0;
+            preMaxPos = 0;
         }
-        for (int l = currentMaxPos + 1; l < preMaxPos; ++l) { // It goes through the values between max position and premax positions
-            numofWater += preMax - arr[l];
-        }
-        currentMaxPos = preMaxPos;// And then the cycle begins from the rest of unscaned array
-        preMax = 0;
-        preMaxPos = 0;
     }
     return numofWater;
 }
