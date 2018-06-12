@@ -9,7 +9,7 @@ int main() {
 unsigned int size;
     cout << "Hello, input the size, please:" << endl;
     cin >>size;
-    unsigned int* arr = new unsigned int[size];
+    unsigned int arr[size];
     for(unsigned int i = 0; i < size; ++i){
         cout << "Element "<< i+1 << endl;
         cin >> arr[i];
